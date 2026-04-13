@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record model="ir.module.category" id="lms_books_access_control">
+        <field name="name">LMS Books</field>
+        <field name="description">LMS Books Access</field>
+        <field name="sequence">11</field>
+    </record>
+    <record id="group_able_to_create_book" model="res.groups">
+        <field name="name">Able to create Books</field>
+        <field name="comment">The user who Can create Books</field>
+        <field name="category_id" ref="lms_books_access_control" />
+        <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]" />
+    </record>
+    <record id="group_able_to_read_book" model="res.groups">
+        <field name="name">Able to read Books</field>
+        <field name="comment">The user who can read Books</field>
+        <field name="category_id" ref="lms_books_access_control" />
+        <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]" />
+    </record>
+    <record id="group_able_to_write_book" model="res.groups">
+        <field name="name">Able to write Books</field>
+        <field name="comment">The user who can write Books</field>
+        <field name="category_id" ref="lms_books_access_control" />
+        <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]" />
+    </record>
+    <record id="group_able_to_delete_book" model="res.groups">
+        <field name="name">Able to delete Books</field>
+        <field name="comment">The user who can delete Books</field>
+        <field name="category_id" ref="lms_books_access_control" />
+        <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]" />
+    </record>
+</odoo>
