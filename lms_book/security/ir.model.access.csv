@@ -1,0 +1,17 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_lms_book,lms.book,model_lms_book,lms_book.group_able_to_create_book,0,0,1,0
+access_lms_book_read,lms.book.read,model_lms_book,lms_book.group_able_to_read_book,1,0,0,0
+access_lms_book_write,lms.book.write,model_lms_book,lms_book.group_able_to_write_book,0,1,0,0
+access_lms_book_delete,lms.book.delete,model_lms_book,lms_book.group_able_to_delete_book,0,0,0,1
+access_lms_book_publisher,lms.book.publisher,model_lms_book_publisher,lms_book.group_able_to_create_book,1,1,1,1
+access_lms_book_publisher_read,lms.book.publisher,model_lms_book_publisher,lms_book.group_able_to_read_book,1,0,0,0
+access_lms_book_author,lms.book.author,model_lms_book_author,lms_book.group_able_to_create_book,1,1,1,1
+access_lms_book_author_read,lms.book.author.read,model_lms_book_author,lms_book.group_able_to_read_book,1,0,0,0
+access_lms_book_genre,lms.book.genre,model_lms_book_genre,lms_book.group_able_to_create_book,1,1,1,1
+access_lms_book_genre_read,lms.book.genre.read,model_lms_book_genre,lms_book.group_able_to_read_book,1,0,0,0
+access_lms_book_shelf,lms.book.shelf,model_lms_book_shelf,lms_book.group_able_to_create_book,1,1,1,1
+access_lms_book_shelf_read,lms.book.shelf.read,model_lms_book_shelf,lms_book.group_able_to_create_book,1,0,0,0
+access_lms_book_translator,lms.book.translator,model_lms_book_translator,lms_book.group_able_to_create_book,1,1,1,1
+access_lms_book_translator_read,lms.book.translator.read,model_lms_book_translator,lms_book.group_able_to_read_book,1,0,0,0
+access_lms_book_language,lms.book.language,model_lms_book_language,lms_book.group_able_to_create_book,1,1,1,1
+access_lms_book_language_read,lms.book.language.read,model_lms_book_language,lms_book.group_able_to_read_book,1,0,0,0
