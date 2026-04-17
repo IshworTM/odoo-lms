@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="lms_book_author_view_tree" model="ir.ui.view">
+        <field name="name">lms.book.author.view.tree</field>
+        <field name="model">lms.book.author</field>
+        <field name="arch" type="xml">
+            <tree string="Authors">
+                <field name="name" />
+                <field name="country_id"/>
+                <field name="language_id" />
+                <field name="book_count"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="lms_book_author_view_kanban" model="ir.ui.view">
+        <field name="name">lms.book.author.view.kanban</field>
+        <field name="model">lms.book.author</field>
+        <field name="arch" type="xml">
+            <kanban string = "Authors">
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <h4>
+                                <field name="name" />
+                            </h4>
+                            <span>Country: </span>
+                            <i>
+                                <field name="country_id" />
+                            </i>
+                            <div>
+                                <span>Language: </span>
+                                <i>
+                                    <field name="language_id"/>
+                                </i>
+                            </div>
+                            <div>
+                                <span>Total Books: </span>
+                                <b>
+                                    <field name="book_count" />
+                                </b>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="lms_book_author_view_form" model="ir.ui.view">
+        <field name="name">lms.book.author.view.form</field>
+        <field name="model">lms.book.author</field>
+        <field name="arch" type="xml">
+            <form string="Authors">
+                <sheet>
+                    <div>
+                        <h1>
+                            <field name="name" />
+                        </h1>
+                    </div>
+                    <div>
+                        <h4>
+                            <span>Country: </span>
+                            <field name="country_id" options="{'no_open': True}"/>
+                        </h4>
+                    </div>
+                    <div>
+                        <h4>
+                            <span>Language: </span>
+                            <field name="language_id" options="{'no_open': True}"/>
+                        </h4>
+                    </div>
+                    <div>
+                        <h3>
+                            <span>Total Books: </span>
+                            <field name="book_count" />
+                        </h3>
+                    </div>
+                    <notebook>
+                        <page name="Author books" class="" string="Books">
+
+                            <field name="book_ids">
+                                <kanban>
+                                    <templates>
+                                        <t t-name="kanban-box">
+                                            <div class="oe_kanban_global_click">
+                                                <div class="o_kanban_image">
+                                                    <field name="image" preview_image="logo" widget="image" options="{'zoom': true, 'zoom_delay': 1000}" />
+                                                </div>
+                                                <div class="oe_kanban_details">
+                                                    <div class="o_kanban_record_top mb-0">
+                                                        <div class="o_kanban_record_headings">
+                                                            <strong class="o_kanban_record_title">
+                                                                <div class="d-flex justify-content-between">
+                                                                    <t t-if="record.name.raw_value">
+                                                                        <field name="name" />
+                                                                    </t>
+                                                                </div>
+                                                            </strong>
+                                                        </div>
+                                                    </div>
+                                                    <div name="book_genre">
+                                                        <t t-if="record.genre_ids.value">
+                                                            <field name="genre_ids" widget="many2many_tags"/>
+                                                        </t>
+                                                    </div>
+                                                    <div name="book_shelf" class="mt-1">
+                                                        <t t-if="record.shelf_id.value">
+                                                            <field name="shelf_id"/>
+                                                        </t>
+                                                    </div>
+                                                    <t t-if="record.price.raw_value">
+                                                        <div name="book_price">
+                                                            <strong>MRP: </strong>
+                                                            <span>
+                                                                <field name="price" widget="monetary"/>
+                                                            </span>
+                                                        </div>
+                                                    </t>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </templates>
+                                </kanban>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="lms_book_author_view_search" model="ir.ui.view">
+        <field name="name">lms.book.author.view.search</field>
+        <field name="model">lms.book.author</field>
+        <field name="arch" type="xml">
+            <search string="Book">
+                <field name="name" string="Author"/>
+                <field name="book_ids" string="Book"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="lms_book_author_action" model="ir.actions.act_window">
+        <field name="name">Authors</field>
+        <field name="res_model">lms.book.author</field>
+        <field name="view_mode">kanban,tree,form</field>
+    </record>
+
+    <menuitem id="lms_book_author_menu" name="Authors" parent="va_lms.lms_root_menu" action="lms_book_author_action" sequence="4"/>
+</odoo>
