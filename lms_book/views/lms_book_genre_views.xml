@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- list view  -->
+    <record id="lms_book_genre_view_tree" model="ir.ui.view">
+        <field name="name">lms.book.genre.view.tree</field>
+        <field name="model">lms.book.genre</field>
+        <field name="arch" type="xml">
+            <tree string="Genres">
+                <field name="name" />
+            </tree>
+        </field>
+    </record>
+
+    <!-- kanban view  -->
+    <record id="lms_book_genre_view_kanban" model="ir.ui.view">
+        <field name="name">lms.book.genre.view.kanban</field>
+        <field name="model">lms.book.genre</field>
+        <field name="arch" type="xml">
+            <kanban action="action_book_genre" type="object">
+                <field name="color" widget="color_picker"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click p-3 #{!selection_mode ? kanban_color(record.color.raw_value) : ''}" style="height: 100px;">
+                            <div class="o_dropdown_kanban dropdown">
+                                <a role="button" class="dropdown-toggle o-no-caret btn" data-bs-toggle="dropdown" data-bs-display="static" href="#" aria-label="Dropdown menu" title="Dropdown menu">
+                                    <span class="fa fa-ellipsis-v"/>
+                                </a>
+                                <div class="dropdown-menu" role="menu">
+                                    <a role="menuitem" type="edit" class="dropdown-item">Edit</a>
+                                    <a role="menuitem" type="delete" class="dropdown-item">Delete</a>
+                                    <ul class="oe_kanban_colorpicker" data-field="color"/>
+                                </div>
+                            </div>
+
+                            <h2>
+                                <field name="name" />
+                            </h2>
+                            <div>
+                                <span>Total Books: </span>
+                                <field name="total"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="lms_book_genre_view_form" model="ir.ui.view">
+        <field name="name">lms_book_genre.view.form</field>
+        <field name="model">lms.book.genre</field>
+        <field name="arch" type="xml">
+            <form string="book genre">
+                <sheet>
+                    <group>
+                        <field name="name" />
+                        <field name="color" widget="color_picker"/>
+                        <field name="total" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- search view  -->
+    <record id="lms_book_genre_view_search" model="ir.ui.view">
+        <field name="name">lms_book_genre.view.search</field>
+        <field name="model">lms.book.genre</field>
+        <field name="arch" type="xml">
+            <search string="genre">
+                <field name="name" string="Genre Name"/>
+                <field name="book_ids" string="Book Name"/>
+
+                <filter name="estate_property_filter" string="Created This Week" domain="[('create_date', '>=', (context_today() - datetime.timedelta(days=7)).strftime('%Y-%m-%d'))]" />
+            </search>
+        </field>
+    </record>
+
+    <record id="lms_book_genre_action" model="ir.actions.act_window">
+        <field name="name">Genres</field>
+        <field name="res_model">lms.book.genre</field>
+        <field name="view_mode">kanban,tree,form</field>
+    </record>
+
+    <menuitem id="lms_book_genre_menu" name="Genres" parent="va_lms.lms_root_menu" action="lms_book_genre_action" sequence="3"/>
+</odoo>
