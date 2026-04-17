@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="lms_book_tree_view" model="ir.ui.view">
+            <field name="name">lms.book.tree</field>
+            <field name="model">lms.book</field>
+            <field name="arch" type="xml">
+                <tree string="Books">
+                    <field name="name" />
+                    <field name="isbn" />
+                    <field name="language_id" />
+                    <field name="author_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                    <field name="genre_ids" widget="many2many_tags"/>
+                    <field name="price" />
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="lms_book_kanban_view">
+            <field name="name">lms.book.kanban</field>
+            <field name="model">lms.book</field>
+            <field name="arch" type="xml">
+                <kanban string="Books" sample="1">
+                    <field name="state"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click">
+                                <div class="o_kanban_image">
+                                    <field name="image" preview_image="logo" widget="image" options="{'zoom': true, 'zoom_delay': 1000}" />
+                                </div>
+                                <div class="oe_kanban_details">
+                                    <div class="o_kanban_record_top mb-0">
+                                        <div class="o_kanban_record_headings">
+                                            <strong class="o_kanban_record_title">
+                                                <div class="d-flex justify-content-between">
+                                                    <t t-if="record.name.raw_value">
+                                                        <field name="name" />
+                                                    </t>
+                                                </div>
+                                            </strong>
+                                        </div>
+                                    </div>
+                                    <div name="book_genre">
+                                        <t t-if="record.genre_ids.value">
+                                            <field name="genre_ids" widget="many2many_tags"/>
+                                        </t>
+                                    </div>
+                                    <div name="book_authors" class="mt-1">
+                                        <t t-if="record.author_ids.value">
+                                            <field name="author_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                                        </t>
+                                    </div>
+                                    <div name="book_shelf" class="mt-1">
+                                        <t t-if="record.shelf_id.value">
+                                            <field name="shelf_id"/>
+                                        </t>
+                                    </div>
+                                    <t t-if="record.price.raw_value">
+                                        <div name="book_price">
+                                            <strong>MRP: </strong>
+                                            <span>
+                                                <field name="price" widget="monetary"/>
+                                            </span>
+                                        </div>
+                                    </t>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id='lms_book_view_form' model='ir.ui.view'>
+            <field name="name">lms.book.form</field>
+            <field name="model">lms.book</field>
+            <field name="arch" type="xml">
+                <form string="Books" js_class="book_form">
+                    <header>
+                        <field name="state" widget="statusbar" options="{'clickable': 1}"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                        </div>
+                        <field name="image" widget='image' class="oe_avatar" options="{'size': [100, 300]}"/>
+                        <div class="oe_title col-6">
+                            <label for="name"/>
+                            <h1>
+                                <field name="name" placeholder="Title" />
+                            </h1>
+                        </div>
+                        <group col="2">
+                            <group name="book_info" string="Book Information">
+                                <field name="isbn" />
+                                <field name="author_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                                <field name="country_id" />
+                                <field name="price" widget="monetary"/>
+                            </group>
+                            <group name="book_category" string="Book Categorization">
+                                <field name="language_id"/>
+                                <field name="genre_ids" widget="many2many_tags"/>
+                                <field name="is_series" />
+                                <field name="parent_id" attrs="{'invisible': [('is_series', '=', False)]}"/>
+                                <field name="shelf_id"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="publisher" string="Publisher">
+                                <group name="publisher_info" string="Publisher Information">
+                                    <field name="is_translated" widget="boolean_toggle"/>
+                                    <field name="translator_id" attrs="{'invisible': [('is_translated', '=', False)]}"/>
+                                    <field name="translated_from" attrs="{'invisible': [('is_translated', '=', False)]}"/>
+                                    <field name="translated_to" attrs="{'invisible': [('is_translated', '=', False)]}"/>
+                                    <field name="publisher_id"/>
+                                    <field name="date_published"/>
+                                    <field name="edition"/>
+                                    <field name="pages"/>
+                                </group>
+                            </page>
+                            <page name="series_info" string="Series" attrs="{'invisible': [('is_series', '=', False)]}">
+                                <field name="child_ids">
+                                    <kanban>
+                                        <templates>
+                                            <t t-name="kanban-box">
+                                                <div class="oe_kanban_global_click">
+                                                    <div class="o_kanban_image">
+                                                        <field name="image" preview_image="logo" widget="image" options="{'zoom': true, 'zoom_delay': 1000}" />
+                                                    </div>
+                                                    <div class="oe_kanban_details">
+                                                        <div class="o_kanban_record_top mb-0">
+                                                            <div class="o_kanban_record_headings">
+                                                                <strong class="o_kanban_record_title">
+                                                                    <div class="d-flex justify-content-between">
+                                                                        <t t-if="record.name.raw_value">
+                                                                            <field name="name" />
+                                                                        </t>
+                                                                    </div>
+                                                                </strong>
+                                                            </div>
+                                                        </div>
+                                                        <div name="book_genre">
+                                                            <t t-if="record.genre_ids.value">
+                                                                <field name="genre_ids" widget="many2many_tags"/>
+                                                            </t>
+                                                        </div>
+                                                        <div name="book_authors" class="mt-1">
+                                                            <t t-if="record.author_ids.value">
+                                                                <field name="author_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                                                            </t>
+                                                        </div>
+                                                        <div name="book_shelf" class="mt-1">
+                                                            <t t-if="record.shelf_id.value">
+                                                                <field name="shelf_id"/>
+                                                            </t>
+                                                        </div>
+                                                        <t t-if="record.price.raw_value">
+                                                            <div name="book_price">
+                                                                <strong>MRP: </strong>
+                                                                <span>
+                                                                    <field name="price" widget="monetary"/>
+                                                                </span>
+                                                            </div>
+                                                        </t>
+                                                    </div>
+                                                </div>
+                                            </t>
+                                        </templates>
+                                    </kanban>
+                                </field>
+                            </page>
+                            <page name="description_info" string="Description">
+                                <field name="description" />
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" groups="base.group_user"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="lms_book_window_action">
+            <field name="name">Books</field>
+            <field name="res_model">lms.book</field>
+            <field name="view_mode">kanban,tree,form</field>
+        </record>
+
+        <menuitem id="lms_book_menu" name="Books" action="lms_book_window_action" parent="va_lms.lms_root_menu" sequence="2" />
+    </data>
+</odoo>
