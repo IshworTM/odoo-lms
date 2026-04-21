@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="lms_book_issue_inherit_lms_book_form_view" model="ir.ui.view">
+            <field name="name">lms.book.view.form.inherit</field>
+            <field name="model">lms.book</field>
+            <field name="inherit_id" ref="lms_book.lms_book_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='state']" position="before">
+                    <button name="action_book_issue_view" type="object" string="Issue" class="oe_highlight" attrs="{'invisible':[('state','=','issued')]}"/>
+                    <button name="action_check_in_book" type="object" string="Check-in" attrs="{'invisible':[('state','=','not_issued')]}"/>
+                </xpath>
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button name="return_action_to_open" type="object" class="oe_stat_button" context="{'xml_id':'lms_book_issue.lms_book_issue_history_action'}" icon="fa-book">
+                        <field name="issue_history_count" widget="statinfo" nolabel="1"/>
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_text">Issue</span>
+                            <span class="o_stat_text">History</span>
+                        </div>
+                    </button>
+                </xpath>
+            </field>
+        </record>
+        <record id="lms_book_issue_inherit_lms_book_kanban_view" model="ir.ui.view">
+            <field name="name">lms.book.view.kanban.inherit</field>
+            <field name="model">lms.book</field>
+            <field name="inherit_id" ref="lms_book.lms_book_kanban_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@class='oe_kanban_global_click']" position="inside">
+                    <div class="d-flex justify-content-end">
+                        <button name="action_book_issue_view" type="object" string="Issue" class="oe_highlight" attrs="{'invisible':[('state','=','issued')]}" />
+                        <button name="action_check_in_book" type="object" string="CHECK-IN" attrs="{'invisible':[('state','=','not_issued')]}" />
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
