@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="lms_book_issue_tree_view" model="ir.ui.view">
+        <field name="name">lms.book.issue.tree.view</field>
+        <field name="model">lms.book.issue</field>
+        <field name="arch" type="xml">
+            <tree string="Book Issues" create="0" decoration-info="due_date_display == 'Today'" decoration-success="state == 'returned'" decoration-danger="state == 'overdue'">
+                <field name="book_id" />
+                <field name="member_id" />
+                <field name="issued_date" />
+                <field name="return_date" />
+                <field name="due_date_display"/>
+                <field name="returned_date" />
+                <field name="state" widget="badge" decoration-danger="state == 'overdue'" decoration-info="state == 'issued'" decoration-success="state == 'returned'" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="lms_book_issue_form_view" model="ir.ui.view">
+        <field name="name">lms.book.issue.form.view</field>
+        <field name="model">lms.book.issue</field>
+        <field name="arch" type="xml">
+            <form string="Book Issues">
+                <sheet>
+                    <field name="member_state_not_returned" invisible="1"/>
+                    <span class="d-flex justify-content-center p-2">
+                        <h1 class="o_horizontal_separator">Issue a Book </h1>
+                    </span>
+                    <group>
+                        <group name="member_information" string="Member Information">
+                            <field name="member_id" />
+                        </group>
+                        <group name="book_information" string="Book Information">
+                            <field name="book_id" />
+                        </group>
+                        <group name="date_information" string="Dates">
+                            <field name="issued_date" />
+                            <field name="return_date" date="True"/>
+                            <field name="returned_date" attrs="{'invisible':[('id','=', False)]}"/>
+                        </group>
+                    </group>
+                    <div>
+                        <button type="object" name="action_view_new_issue_form" class="oe_highlight" string="Issue" invisible="context.get('is_book_view', False)" attrs="{'invisible': ['|', ('id', '!=', False), ('member_state_not_returned', '=', True)]}"/>
+                        <button type="object" name="action_view_new_issue_form" class="oe_highlight" string="Issue" invisible="context.get('is_book_view', False)" attrs="{'invisible': ['|', ('id', '!=', False), ('member_state_not_returned', '=', False)]}" confirm="This member already has one or more books issued, do you wish to proceed?"/>
+                        <button type="object" name="action_check_in_book" class="oe_highlight" string="Check-in" attrs="{'invisible':[('id','=', False)]}"/>
+                        <button class="btn btn-secondary" string="Reset" special="cancel" attrs="{'invisible':[('id','!=', False)]}" invisible="context.get('is_book_view', False)"/>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="lms_book_issue_view_search" model="ir.ui.view">
+        <field name="name">lms_book_issue.view.search</field>
+        <field name="model">lms.book.issue</field>
+        <field name="arch" type="xml">
+            <search >
+                <field name="book_id" string="Book Name" />
+                <field name="member_id" string="Member Name"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="lms_book_issue_action" model="ir.actions.act_window">
+        <field name="name">Book Issue</field>
+        <field name="res_model">lms.book.issue</field>
+        <field name="view_mode">form</field>
+        <field name="context"> {'no_breadcrumbs': True}</field>
+    </record>
+
+    <record id="lms_book_issue_history_action" model="ir.actions.act_window">
+        <field name="name">Book Issue History</field>
+        <field name="res_model">lms.book.issue</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="lms_book_issue_menu" name="Book Issue" parent="va_lms.lms_root_menu" sequence="1">
+        <menuitem id="lms_quick_book_issue_menu" name="Issue a Book" action="lms_book_issue_action" />
+        <menuitem id="lms_book_issue_history_menu" name="Issue History" action="lms_book_issue_history_action" />
+    </menuitem>
+</odoo>

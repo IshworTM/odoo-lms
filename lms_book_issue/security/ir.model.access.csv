@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_lms_book_issue,lms.book_issue,model_lms_book_issue,lms_book_issue.group_able_to_create_book_issue,0,0,1,0
+access_lms_book_issue_read,lms.book_issue.read,model_lms_book_issue,lms_book_issue.group_able_to_read_book_issue,1,0,0,0
+access_lms_book_issue_write,lms.book_issue.write,model_lms_book_issue,lms_book_issue.group_able_to_write_book_issue,0,1,0,0
+access_lms_book_issue_delete,lms.book_issue.delete,model_lms_book_issue,lms_book_issue.group_able_to_delete_book_issue,0,0,0,1

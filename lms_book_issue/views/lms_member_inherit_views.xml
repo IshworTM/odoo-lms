@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="lms_book_issue_inherit_lms_member_form_view" model="ir.ui.view">
+            <field name="name">lms.member.view.form.inherit</field>
+            <field name="model">lms.member</field>
+            <field name="inherit_id" ref="lms_member.lms_member_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button name="return_action_to_open" type="object" class="oe_stat_button" context="{'xml_id':'lms_book_issue.lms_book_issue_history_action'}" icon="fa-book">
+                        <field name="issue_history_count" widget="statinfo" nolabel="1"/>
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_text">Issue</span>
+                            <span class="o_stat_text">History</span>
+                        </div>
+                    </button>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
