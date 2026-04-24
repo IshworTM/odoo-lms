@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_lms_member,lms.member,model_lms_member,lms_member.group_able_to_create_member,0,0,1,0
+access_lms_member_read,lms.member.read,model_lms_member,lms_member.group_able_to_read_member,1,0,0,0
+access_lms_member_write,lms.member.write,model_lms_member,lms_member.group_able_to_write_member,0,1,0,0
+access_lms_member_delete,lms.member.delete,model_lms_member,lms_member.group_able_to_delete_member,0,0,0,1
