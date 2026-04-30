@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_lms_book,lms.book,lms_book.model_lms_book,,1,0,0,0
+access_lms_book_genre,lms.book.genre,lms_book.model_lms_book_genre,,1,0,0,0
+access_lms_book_publisher,lms.book.publisher,lms_book.model_lms_book_publisher,,1,0,0,0
+access_lms_book_language,lms.book.language,lms_book.model_lms_book_language,,1,0,0,0
+access_lms_book_issue,lms.book.issue,lms_book_issue.model_lms_book_issue,,1,0,0,0
+access_lms_book_author,lms.book.author,lms_book.model_lms_book_author,,1,0,0,0
+access_lms_book_shelf,lms.book.shelf,lms_book.model_lms_book_shelf,,1,0,0,0
