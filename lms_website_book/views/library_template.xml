@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- main template  -->
+        <template id="library_index" name="Library">
+            <t t-call="website.layout">
+                <div id="wrap" class="o_wlibrary_index">
+                    <t t-call="lms_website_book.library_topbar">
+                        <t t-set="search" t-value="original_search or search or searches['search']"/>
+                    </t>
+                    <div id="book_details_count">
+                        <t t-call="lms_website_book.book_count_section_main" />
+                    </div>
+
+                    <div id="book_section_call">
+                        <t t-call="lms_website_book.book_list" />
+                    </div>
+                    <div class="o_portal_library_pager d-flex justify-content-center m-4">
+                        <t t-call="website.pager" />
+                    </div>
+                    <div id="oe_structure_we_index_1" class="oe_structure oe_empty"/>
+                </div>
+            </t>
+        </template>
+
+        <template id="library_topbar" name="Library Topbar">
+            <nav class="navbar navbar-light border-top shadow-sm d-print-none">
+                <div class="container">
+                    <div class="d-flex flex-column flex-sm-row justify-content-between w-100">
+                        <span class="navbar-brand h4 my-0 me-auto">Books</span>
+                        <ul class="o_library_index_topbar_filters nav">
+                            <li class="nav-item dropdown me-2 my-1">
+                                <a href="#" role="button" class="btn dropdown-toggle" data-bs-toggle="dropdown">
+                                    <i class="fa fa-folder-open"/>
+                                    <span>Authors</span>
+                                </a>
+                                <div class="dropdown-menu filter-container">
+                                    <input type="text" class="form-control filter-search" placeholder="Search Authors..." />
+                                    <t t-foreach="authors" t-as="author">
+                                        <a t-att-href="'/library?%s' % keep_query('*', authors=str((search_authors - author).ids if author in search_authors else (author | search_authors).ids))" t-attf-class="dropdown-item d-flex align-items-center justify-content-between #{'active' if author in search_authors else ''}">
+                                            <t t-out="author.name"/>
+                                        </a>
+                                    </t>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown me-2 my-1">
+                                <a href="#" role="button" class="btn dropdown-toggle" data-bs-toggle="dropdown">
+                                    <i class="fa fa-folder-open"/>
+                                    <span>Languages</span>
+                                </a>
+                                <div class="dropdown-menu filter-container">
+                                    <input type="text" class="form-control filter-search" placeholder="Search languages..." />
+                                    <t t-foreach="book_languages" t-as="language">
+                                        <a t-att-href="'/library?%s' % keep_query('*', languages=str((search_languages - language).ids if language in search_languages else (language | search_languages).ids))" t-attf-class="dropdown-item d-flex align-items-center justify-content-between #{'active' if language in search_languages else ''}">
+                                            <t t-out="language.name"/>
+                                        </a>
+                                    </t>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown me-2 my-1">
+                                <a href="#" role="button" class="btn dropdown-toggle" data-bs-toggle="dropdown">
+                                    <i class="fa fa-folder-open"/>
+                                    <span>Genres</span>
+                                </a>
+                                <div class="dropdown-menu filter-container">
+                                    <input type="text" class="form-control filter-search" placeholder="Search genres..." />
+                                    <t t-foreach="genres" t-as="genre">
+                                        <a t-att-href="'/library?%s' % keep_query('*', genres=str((search_genres - genre).ids if genre in search_genres else (genre | search_genres).ids))" t-attf-class="dropdown-item d-flex align-items-center justify-content-between #{'active' if genre in search_genres else ''}">
+                                            <t t-out="genre.name"/>
+                                        </a>
+                                    </t>
+                                </div>
+                            </li>
+                        </ul>
+                        <script>
+                        </script>
+                        <div class="d-flex align-items-center flex-wrap ps-sm-3 pe-0">
+                            <t t-call="lms_website_book.library_search_box_input"/>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </template>
+
+        <template id="library_search_box_input" name="Library search box">
+            <t t-call="website.website_search_box_input">
+                <t t-set="search_type" t-valuef="library" />
+                <t t-set="action" t-valuef="/library" />
+                <t t-set="display_description" t-valuef="true"/>
+                <t t-set="display_detail" t-valuef="false"/>
+                <t t-set="search" t-value="search or searches and searches['search']"/>
+                <t t-set="placeholder">Search Books...</t>
+                <t t-out="0"/>
+                <t t-foreach="searches" t-as="item">
+                    <input t-if="item != 'search' and item_value != 'all'" type="hidden" t-att-name="item" t-att-value="item_value"/>
+                </t>
+            </t>
+        </template>
+
+        <template id="searched_filters" name="Searched tags">
+            <div class="d-flex align-items-center mt16">
+                <t t-foreach="search_genres" t-as="genre">
+                    <span t-attf-class="align-items-baseline border d-inline-flex ps-2 rounded ml16 mb-2 #{'o_tag_color_%s' % genre.color if genre.color else ''}">
+                        <i class="fa fa-tag me-2 text-muted"/>
+                        <t t-out="genre.name"/>
+                        <a t-att-href="'/library?%s' % keep_query('*', genres=str((search_genres - genre).ids))" class="btn border-0 py-1">&#215;</a>
+                    </span>
+                </t>
+                <t t-foreach="search_languages" t-as="language">
+                    <span t-attf-class="align-items-baseline border d-inline-flex ps-2 rounded ml16 mb-2">
+                        <i class="fa fa-tag me-2 text-muted"/>
+                        <t t-out="language.name"/>
+                        <a t-att-href="'/library?%s' % keep_query('*', languages=str((search_languages - language).ids))" class="btn border-0 py-1">&#215;</a>
+                    </span>
+                </t>
+                <t t-foreach="search_authors" t-as="author">
+                    <span t-attf-class="align-items-baseline border d-inline-flex ps-2 rounded ml16 mb-2 #{'o_tag_color_%s' % author.color if author.color else ''}">
+                        <i class="fa fa-tag me-2 text-muted"/>
+                        <t t-out="author.name"/>
+                        <a t-att-href="'/library?%s' % keep_query('*', authors=str((search_authors - author).ids))" class="btn border-0 py-1">&#215;</a>
+                    </span>
+                </t>
+            </div>
+        </template>
+
+        <template id="book_count_section_main" name="book count">
+            <t t-if="search_genres or search_authors or search_languages or searches['search']">
+                <div class="container">
+                    <div class="d-flex mx-n3">
+                        <t t-call="lms_website_book.searched_filters"/>
+                    </div>
+                </div>
+            </t>
+            <t t-else="">
+                <section class="book_numbers o_cc o_cc2 pt24 pb24">
+                    <div class="container">
+                        <div class="row">
+                            <t t-foreach="statistics" t-as="stat">
+                                <div class="col-lg-4 text-center pt24 pb24">
+                                    <span class="display-4">
+                                        <t t-esc="stat['value']" />
+                                    </span>
+                                    <h6>
+                                        <t t-esc="stat['label']" />
+                                    </h6>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </section>
+            </t>
+        </template>
+
+        <!-- book name template  -->
+        <template id="book_list" name="Total Books">
+            <t t-if="not book_ids">
+                <div class="col-12 d-flex justify-content-center">
+                    <div class="h2 mb-3">No Books Found</div>
+                </div>
+            </t>
+            <div class="book-grid my-4">
+                <t t-foreach="book_ids" t-as="book">
+                    <div class="book-item">
+                        <a t-cache="book if not editable and book.website_published else None" t-attf-href="/library/book/#{ slug(book) }" class="text-decoration-none">
+                            <div class="book-card">
+                                <div class="book-img-container">
+                                    <t t-if="book.image">
+                                        <span t-field="book.image" class="book-image" t-options="{'widget': 'image'}" />
+                                    </t>
+                                    <t t-else="">
+                                        <span t-field="book.image" class="book-image" t-options="{'widget': 'image'}" />
+                                    </t>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">
+                                        <span class="book-title-short">
+                                            <t t-esc="book.name"/>
+                                        </span>
+                                        <span class="book-title-full">
+                                            <t t-esc="book.name"/>
+                                        </span>
+                                    </h5>
+                                    <div class="more-info">
+                                        <div class="row">
+                                            <div class="info-box">
+                                                <span class="fw-bold">By: </span>
+                                                <t t-foreach="book.author_ids" t-as="author">
+                                                    <t t-esc="author.name" />
+                                                    <t t-if="author != book.author_ids[-1]">, </t>
+                                                </t>
+                                            </div>
+                                            <div class="info-box">
+                                                <span class="fw-bold">Genre: </span>
+                                                <t t-foreach="book.genre_ids" t-as="genre">
+                                                    <t t-esc="genre.name" />
+                                                    <t t-if="genre != book.genre_ids[-1]">, </t>
+                                                </t>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </t>
+            </div>
+        </template>
+    </data>
+</odoo>
