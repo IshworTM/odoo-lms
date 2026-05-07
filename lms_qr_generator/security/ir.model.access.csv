@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_lms_qr_generator,lms.qr.generator,model_lms_qr_generator,lms_qr_generator.group_able_to_create_qr,0,0,1,0
+access_lms_qr_generator_write,lms.qr.generator.write,model_lms_qr_generator,lms_qr_generator.group_able_to_create_qr,0,1,0,0
+access_lms_qr_generator_delete,lms.qr.generator.delete,model_lms_qr_generator,lms_qr_generator.group_able_to_create_qr,0,0,0,1
+access_lms_qr_generator_read_only,lms.qr.generator.read,model_lms_qr_generator,lms_qr_generator.group_able_to_read_qr,1,0,0,0
+access_lms_qr_type,lms.qr.type,model_lms_qr_type,lms_qr_generator.group_able_to_create_qr,1,1,1,1
+access_lms_qr,lms.qr,model_lms_qr,lms_qr_generator.group_able_to_create_qr,1,1,1,1
