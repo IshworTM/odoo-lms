@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="lms_qr_type_tree_view">
+            <field name="name">lms.qr.type.tree</field>
+            <field name="model">lms.qr.generator</field>
+            <field name="arch" type="xml">
+                <tree string="QR Generator" multi_edit="1" export_xlsx="false">
+                    <field name="name" />
+                    <field name="qr_type"/>
+                    <field name="quantity" />
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="lms_qr_type_form">
+            <field name="name">lms.qr.type.form</field>
+            <field name="model">lms.qr.generator</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="state" widget="statusbar" class="o_field_statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group name="qr_info" string="QR information">
+                                <field name="qr_type"/>
+                                <field name="color" widget="color" />
+                                <field name="back_color" widget="color" />
+                                <field name="qr_box_size" />
+                                <field name="qr_border" />
+                                <field name="quantity" />
+                            </group>
+                            <group name="logo_info" string="Logo Information">
+                                <field name="image" widget="image" options="{'size': [100, 100]}"/>
+                                <field name="image_base_width" />
+                            </group>
+                        </group>
+                        <button name="generate_qr" type="object" class="oe_highlight" confirm="Do you want to generate QR, This cannot be undone." attrs="{'invisible': [('state', '=', 'generated')]}" string="Generate QR"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="lms_qr_code_generator_action">
+            <field name="name">Generate Qr</field>
+            <field name="res_model">lms.qr.generator</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="lms_qr_menu" name="QR" parent="va_lms.lms_root_menu" action="lms_qr_code_generator_action" sequence="8"/>
+        <menuitem id="lms_qr_generator_menu" name="Generate QR" parent="lms_qr_menu" action="lms_qr_code_generator_action"/>
+    </data>
+</odoo>
