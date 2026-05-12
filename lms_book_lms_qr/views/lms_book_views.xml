@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="lms_qr_inherits_lms_book" model="ir.ui.view">
+        <field name="name">lms.qr.inherits.lms.book</field>
+        <field name="model">lms.book</field>
+        <field name="inherit_id" ref="lms_book.lms_book_view_form" />
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//page[@name='publisher']" position="after">
+                    <page name="qr_info" string="QR Info">
+                        <group name="qr_info" string="QR code">
+                            <field name="qr_code_id"/>
+                            <field name="qr_code" widget="image"/>
+                        </group>
+                    </page>
+                </xpath>
+            </data>
+        </field>
+    </record>
+</odoo>
